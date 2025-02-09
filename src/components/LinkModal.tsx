@@ -15,6 +15,8 @@ import {
 
 import { updateLink } from '@lib/db';
 import { TagSelector } from './TagSelector';
+import useLinksStore from '@store/linksStore';
+import { useTranslations } from '@/i18n/utils';
 import type { LinkProps } from '@models/general';
 import { pastelizeColorPastel } from '@/utils/formattedColor';
 
@@ -27,6 +29,11 @@ interface LinkModalProps {
 }
 
 export function LinkModal({ link, open, onOpenChange, onDelete, onUpdate }: LinkModalProps) {
+  const { lang } = useLinksStore()
+  const translateLabels = useTranslations(
+    lang
+  );
+
   const [url, setUrl] = useState('');
   const [title, setTitle] = useState('');
   const [color, setColor] = useState('#6366f1');
@@ -79,13 +86,15 @@ export function LinkModal({ link, open, onOpenChange, onDelete, onUpdate }: Link
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] md:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle className='capitalize'>{isEditing ? 'Editando Link' : link.title}</DialogTitle>
+          <DialogTitle className='capitalize'>
+            {isEditing ? translateLabels("linkModal.editing") : link.title}
+          </DialogTitle>
         </DialogHeader>
 
         {isEditing ? (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="title">Título</Label>
+              <Label htmlFor="title">{translateLabels("linkModal.title")}</Label>
               <Input
                 id="title"
                 value={title}
@@ -95,16 +104,16 @@ export function LinkModal({ link, open, onOpenChange, onDelete, onUpdate }: Link
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="description">Description</Label>
+              <Label htmlFor="description">{translateLabels("linkModal.description")}</Label>
               <Textarea
                 id="description"
-                value={description || "Sin Descripción"}
+                value={description || translateLabels("linkModal.noDescription")}
                 onChange={(e) => setDescription(e.target.value)}
                 required
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="url">URL</Label>
+              <Label htmlFor="url">{translateLabels("linkModal.url")}</Label>
               <Input
                 id="url"
                 type="url"
@@ -114,7 +123,7 @@ export function LinkModal({ link, open, onOpenChange, onDelete, onUpdate }: Link
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="color">Color</Label>
+              <Label htmlFor="color">{translateLabels("linkModal.color")}</Label>
               <div className="flex gap-2">
                 <Input
                   id="color"
@@ -127,7 +136,7 @@ export function LinkModal({ link, open, onOpenChange, onDelete, onUpdate }: Link
               </div>
             </div>
             <div className="space-y-2 space-x-2 items-center flex">
-              <Label>Tags</Label>
+              <Label>{translateLabels("linkModal.tags")}</Label>
               <TagSelector selectedTags={tags} onTagsChange={setTags} />
             </div>
             <DialogFooter className="gap-2">
@@ -136,21 +145,23 @@ export function LinkModal({ link, open, onOpenChange, onDelete, onUpdate }: Link
                 variant="outline"
                 onClick={() => setIsEditing(false)}
               >
-                Cancel
+                {translateLabels("linkModal.cancel")}
               </Button>
               <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? 'Saving...' : 'Save Changes'}
+                {isSubmitting ? translateLabels("linkModal.saving") : translateLabels("linkModal.saveChanges")}
               </Button>
             </DialogFooter>
           </form>
         ) : (
           <div className="space-y-4">
             <div>
-              <Label className="text-sm text-muted-foreground">Descripción</Label>
+              <Label className="text-sm text-muted-foreground">
+                {translateLabels("linkModal.description")}
+              </Label>
               <p className="mt-1">{link.description}</p>
             </div>
             <div>
-              <Label className="text-sm text-muted-foreground">URL</Label>
+              <Label className="text-sm text-muted-foreground">{translateLabels("linkModal.url")}</Label>
               <p className="mt-1">
                 <a
                   href={link.url}
@@ -163,19 +174,21 @@ export function LinkModal({ link, open, onOpenChange, onDelete, onUpdate }: Link
               </p>
             </div>
             <div>
-              <Label className="text-sm text-muted-foreground">Tags</Label>
+              <Label className="text-sm text-muted-foreground">{translateLabels("linkModal.tags")}</Label>
               <div className="flex flex-wrap gap-2 mt-2">
                 {link.tags.length > 0 ? link.tags.map((tag) => (
                   <Badge key={tag} variant="secondary">
                     {tag}
                   </Badge>
                 )) : (
-                  <div className='text-gray-700 bg-gray-200 rounded-full px-2 text-sm'>Sin tags</div>
+                  <div className='text-gray-700 bg-gray-200 rounded-full px-2 text-sm'>
+                    {translateLabels("linkModal.noTags")}
+                  </div>
                 )}
               </div>
             </div>
             <div>
-              <Label className="text-sm text-muted-foreground">Color</Label>
+              <Label className="text-sm text-muted-foreground">{translateLabels("linkModal.color")}</Label>
               <div
                 className="w-full h-8 rounded-md mt-1"
                 style={{ backgroundColor: link.color }}
@@ -187,13 +200,16 @@ export function LinkModal({ link, open, onOpenChange, onDelete, onUpdate }: Link
                 variant="outline"
                 onClick={() => onDelete(link.id!)}
               >
-                Eliminar
+                {translateLabels("linkModal.delete")}
               </Button>
-              <Button onClick={() => setIsEditing(true)}>Editar</Button>
+              <Button onClick={() => setIsEditing(true)}>
+                {translateLabels("linkModal.edit")}
+              </Button>
             </DialogFooter>
           </div>
         )}
       </DialogContent>
     </Dialog>
   );
+
 }

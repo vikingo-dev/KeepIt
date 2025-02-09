@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
   :root {
     --background: 36 33% 97%;
@@ -46,13 +47,24 @@
     --input: 12 6.5% 15.1%;
     --ring: 24 5.4% 63.9%;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+
+  .maxContainer {
+    @apply max-w-[calc(100vw-2rem)] md:max-w-[calc(100dvw-10rem)]
+  }
+
+  .padContainer {
+    @apply px-4 md:px-20
+  }
+
+  .marContainer {
+    @apply mx-4 md:mx-20
   }
 }

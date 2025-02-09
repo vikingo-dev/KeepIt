@@ -1,13 +1,15 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Tag, ChevronDown } from 'lucide-react';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from './ui/popover';
-import { Button } from './ui/button';
-import { Checkbox } from './ui/checkbox';
+} from '@ui/popover';
+import { Button } from '@ui/button';
+import { Checkbox } from '@ui/checkbox';
+import useLinksStore from '@/store/linksStore';
+import { useTranslations } from '@/i18n/utils';
 
 const AVAILABLE_TAGS = [
   'CSS', 'Backgrounds', 'Gradients', 'Icons', 'Fonts',
@@ -21,6 +23,7 @@ interface TagSelectorProps {
 
 export function TagSelector({ selectedTags, onTagsChange }: TagSelectorProps) {
   const [open, setOpen] = useState(false);
+  const { lang } = useLinksStore()
 
   const toggleTag = (tag: string) => {
     const newTags = selectedTags.includes(tag)
@@ -28,6 +31,12 @@ export function TagSelector({ selectedTags, onTagsChange }: TagSelectorProps) {
       : [...selectedTags, tag];
     onTagsChange(newTags);
   };
+
+
+  const translateLabels = useTranslations(
+    lang
+  );
+
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -40,7 +49,7 @@ export function TagSelector({ selectedTags, onTagsChange }: TagSelectorProps) {
         >
           <Tag className="w-4 h-4" />
           <p className='hidden md:flex'>
-            Seleccionar Tags
+            {translateLabels("search.selectedTags")}
           </p>
           <ChevronDown className="w-4 h-4 opacity-50" />
         </Button>

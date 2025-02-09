@@ -1,59 +1,39 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from "framer-motion";
 
-import { Navbar } from './Navbar';
-import { SearchBar } from './SearchBar';
-import { LinksList } from './LinksList';
-import type { LinkProps } from '@models/general';
-import { FloatingButton } from './FloatingButton';
-import { getAllLinks, searchLinks } from '@/lib/db';
-import ModalNewUser from './ModalNewUser';
+import Navbar from "./Navbar";
+import { languageList } from "@/i18n/ui";
+import SearchBar from "./SearchBar";
+import LinksList from "./LinksList";
+import useLinksStore from "@store/linksStore";
+import ModalNewUser from "./ModalNewUser";
+import FloatingButton from "./FloatingButton";
 
-export function App() {
-  const [links, setLinks] = useState<LinkProps[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Cargar lista de links
-  const loadLinks = async () => {
-    setIsLoading(true);
-    const data = await getAllLinks();
-    setLinks(data);
-    setIsLoading(false);
-  };
-
-  // Buscar
-  const handleSearch = async (query: string, tags: string[]) => {
-    setIsLoading(true);
-    const results = await searchLinks(query, tags);
-    setLinks(results);
-    setIsLoading(false);
-
-  };
-
-  // Se añadio un nuevo link, se vuelve a cargar la lista
-  const handleLinkAdded = () => {
-    loadLinks();
-  };
+const App = ({ lang }: { lang: keyof typeof languageList }) => {
+  const { links, isLoading, getLinks, setLang } = useLinksStore()
 
   useEffect(() => {
-    loadLinks();
-  }, []);
+    getLinks()
+  }, [])
+
+  useEffect(() => {
+    setLang(lang)
+  }, [lang])
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen relative">
+
       <ModalNewUser />
-      <ToastContainer
-        position="bottom-right"
-      />
+      <ToastContainer position="bottom-right" />
 
       <Navbar />
       <motion.div
-        className="container mx-auto px-4 pt-24 pb-20"
+        className="container mx-auto padContainer pt-24 pb-20"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        <SearchBar onSearch={handleSearch} />
+        <SearchBar />
         <AnimatePresence>
           {isLoading ? (
             <motion.div
@@ -65,15 +45,14 @@ export function App() {
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
             </motion.div>
           ) : (
-            <LinksList
-              links={links}
-              onLinkDeleted={loadLinks}
-              onLinkUpdated={loadLinks}
-            />
+            <LinksList links={links} onLinkDeleted={getLinks} onLinkUpdated={getLinks} />
           )}
         </AnimatePresence>
       </motion.div>
-      <FloatingButton onLinkAdded={handleLinkAdded} />
+      <FloatingButton />
     </div>
-  );
+
+  )
 }
+
+export default App

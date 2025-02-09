@@ -118,3 +118,44 @@ export async function importData(jsonData: string) {
     return false;
   }
 }
+
+const dbNameTgas = `${configSite.title}-tags-db`;
+const tagStoreName = 'tags';
+
+// Initialize database for tags
+export async function initTagDB() {
+  const db = await openDB(dbNameTgas, 1, {
+    upgrade(db) {
+      if (!db.objectStoreNames.contains(tagStoreName)) {
+        db.createObjectStore(tagStoreName, { keyPath: 'id', autoIncrement: true });
+      }
+    },
+  });
+  return db;
+}
+
+// Create a new tag
+export async function addTag(name: string) {
+  const db = await initTagDB();
+  return db.add(tagStoreName, { name, createdAt: new Date() });
+}
+
+// Get all tags
+export async function getAllTags() {
+  const db = await initTagDB();
+  return db.getAll(tagStoreName);
+}
+
+// Update a tag
+export async function updateTag(id: number, name: string) {
+  const db = await initTagDB();
+  const existingTag = await db.get(tagStoreName, id);
+  if (!existingTag) throw new Error('Tag not found');
+  return db.put(tagStoreName, { ...existingTag, name });
+}
+
+// Delete a tag
+export async function deleteTag(id: number) {
+  const db = await initTagDB();
+  return db.delete(tagStoreName, id);
+}

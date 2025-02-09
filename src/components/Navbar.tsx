@@ -2,11 +2,10 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Bookmark, Settings } from 'lucide-react';
 
-import { Button } from '@ui/button';
 import { configSite } from 'config';
 import { SettingsModal } from './SettingsModal';
 
-export function Navbar() {
+const Navbar = () => {
   const [showSettings, setShowSettings] = useState(false);
 
   return (
@@ -16,14 +15,14 @@ export function Navbar() {
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 100 }}
     >
-      <div className="container h-full mx-auto px-4 flex items-center justify-between">
+      <div className="container h-full mx-auto padContainer flex items-center justify-between">
         <motion.div
           className="flex items-center gap-2"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
           <Bookmark className="w-6 h-6 text-primary" />
-          <span className="text-xl font-bold">{configSite.title}</span>
+          <span className="text-xl font-bold">{configSite.name}</span>
         </motion.div>
         <motion.button
           whileHover={{ rotate: 180 }}
@@ -39,3 +38,5 @@ export function Navbar() {
     </motion.nav>
   );
 }
+
+export default Navbar;

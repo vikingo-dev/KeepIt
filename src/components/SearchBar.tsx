@@ -3,27 +3,25 @@ import { Search, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { Input } from '@ui/input';
-import { Button } from '@ui/button';
 import { TagSelector } from './TagSelector';
+import useLinksStore from '@store/linksStore';
+import { useTranslations } from '@/i18n/utils';
 
-interface SearchBarProps {
-  onSearch: (query: string, tags: string[]) => void;
-}
-
-export function SearchBar({ onSearch }: SearchBarProps) {
+const SearchBar = () => {
+  const { handleSearch, lang } = useLinksStore()
   const [query, setQuery] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   // Cambiar texto a buscar 
-  const handleSearch = (newQuery: string, newTags: string[] = selectedTags) => {
+  const handleSearchStates = (newQuery: string, newTags: string[] = selectedTags) => {
     setQuery(newQuery);
-    onSearch(newQuery, newTags);
+    handleSearch(newQuery, newTags);
   };
 
   // Seleccionar tags en busqueda
   const handleTagsChange = (newTags: string[]) => {
     setSelectedTags(newTags);
-    onSearch(query, newTags);
+    handleSearch(query, newTags);
   };
 
   // Remover tags en la busqueda
@@ -31,6 +29,11 @@ export function SearchBar({ onSearch }: SearchBarProps) {
     const newTags = selectedTags.filter(t => t !== tag);
     handleTagsChange(newTags);
   };
+
+  const translateLabels = useTranslations(
+    lang
+  );
+
 
   return (
     <motion.div
@@ -43,10 +46,10 @@ export function SearchBar({ onSearch }: SearchBarProps) {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
           <Input
             type="text"
-            placeholder="Buscar links..."
+            placeholder={translateLabels("search.placeholder")}
             className="pl-10 pr-4 w-full"
             value={query}
-            onChange={(e) => handleSearch(e.target.value)}
+            onChange={(e) => handleSearchStates(e.target.value)}
           />
         </div>
 
@@ -83,3 +86,5 @@ export function SearchBar({ onSearch }: SearchBarProps) {
     </motion.div>
   );
 }
+
+export default SearchBar

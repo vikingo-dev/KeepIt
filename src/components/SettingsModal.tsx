@@ -9,9 +9,11 @@ import {
 } from '@ui/dialog';
 import { Input } from '@ui/input';
 import { Button } from '@ui/button';
-import { parseBookmarks } from '@/lib/bookmarks';
+import useLinksStore from '@store/linksStore';
+import { useTranslations } from '@/i18n/utils';
+import { parseBookmarks } from '@lib/bookmarks';
 import type { BookmarkProps } from '@models/general';
-import { exportData, importData, addLink } from '@/lib/db';
+import { exportData, importData, addLink } from '@lib/db';
 import ImportBookmarks from './settings/bookmarks/ImportBookmarks';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@ui/tabs';
 
@@ -21,6 +23,12 @@ interface SettingsModalProps {
 }
 
 export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
+  const { lang } = useLinksStore()
+
+  const translateLabels = useTranslations(
+    lang
+  );
+
   const [color, setColor] = useState('#6366f1');
   const [tags, setTags] = useState<string[]>([]);
   const [description, setDescription] = useState('');
@@ -128,24 +136,24 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Configuración</DialogTitle>
+          <DialogTitle>{translateLabels('settings.title')}</DialogTitle>
         </DialogHeader>
 
         <Tabs defaultValue="export" className="w-full">
           <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-gray-200">
-            <TabsTrigger value="export">Exportar</TabsTrigger>
-            <TabsTrigger value="import">Importar</TabsTrigger>
-            <TabsTrigger value="bookmarks">Marcadores</TabsTrigger>
-            <TabsTrigger value="theme">Tema</TabsTrigger>
+            <TabsTrigger value="export">{translateLabels('settings.export')}</TabsTrigger>
+            <TabsTrigger value="import">{translateLabels('settings.import')}</TabsTrigger>
+            <TabsTrigger value="bookmarks">{translateLabels('settings.bookmarks')}</TabsTrigger>
+            <TabsTrigger value="theme">{translateLabels('settings.theme')}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="export" className="mt-4">
             <div className="space-y-4">
               <p className="text-sm text-muted-foreground">
-                Exporta tus enlaces a un archivo JSON que podrás importar más tarde.
+                {translateLabels('settings.exportDescription')}
               </p>
               <Button onClick={exportData}>
-                Exportar Links
+                {translateLabels('settings.exportButton')}
               </Button>
             </div>
           </TabsContent>
@@ -153,7 +161,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
           <TabsContent value="import" className="mt-4">
             <div className="space-y-4">
               <p className="text-sm text-muted-foreground">
-                Importar enlaces desde un archivo JSON previamente exportado.
+                {translateLabels('settings.importDescription')}
               </p>
               <div>
                 <Input
@@ -165,7 +173,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
                 />
                 <label htmlFor="import-file">
                   <Button asChild>
-                    <span>Seleccionar archivo JSON</span>
+                    <span>{translateLabels('settings.importButton')}</span>
                   </Button>
                 </label>
               </div>
@@ -189,6 +197,12 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
               cancelImport={cancelBoomkarsImport}
               currentIndex={currentBookmarkIndex}
             />
+          </TabsContent>
+
+          <TabsContent value="theme" className="mt-4">
+            <div className="space-y-4 bg-gray-200 rounded-md px-4 py-2 text-center">
+              <p className='text-gray-600'>{translateLabels("theme.coomingsoon")}</p>
+            </div>
           </TabsContent>
         </Tabs>
       </DialogContent>

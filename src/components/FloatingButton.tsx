@@ -5,11 +5,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@ui/button';
 import { AddLinkModal } from './AddLinkModal';
 
-interface FloatingButtonProps {
-  onLinkAdded: () => void;
-}
-
-export function FloatingButton({ onLinkAdded }: FloatingButtonProps) {
+const FloatingButton = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -32,8 +28,9 @@ export function FloatingButton({ onLinkAdded }: FloatingButtonProps) {
       <AddLinkModal
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
-        onLinkAdded={onLinkAdded}
       />
     </>
   );
 }
+
+export default FloatingButton

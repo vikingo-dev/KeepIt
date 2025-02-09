@@ -2,9 +2,16 @@ import { motion } from 'framer-motion';
 import { ExternalLink } from 'lucide-react';
 
 import { Button } from '@ui/button';
+import useLinksStore from '@store/linksStore';
+import { useTranslations } from '@/i18n/utils';
 import type { LinkProps } from '@models/general'
 
 const LinkItem = ({ link, setSelectedLink }: { link: LinkProps, setSelectedLink: (item: LinkProps) => void }) => {
+  const { lang } = useLinksStore()
+
+  const translateLabels = useTranslations(
+    lang
+  );
 
   // Caluclar color contrase negro o blanco
   const getContrastColor = (hexcolor: string) => {
@@ -34,7 +41,7 @@ const LinkItem = ({ link, setSelectedLink }: { link: LinkProps, setSelectedLink:
           className="flex-1 text-left w-full"
         >
           <h3 className="font-medium line-clamp-1 capitalize">
-            {link.title || "Sin título"}
+            {link.title || translateLabels("linkItem.title")}
           </h3>
         </button>
         <Button

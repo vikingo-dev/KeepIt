@@ -3,6 +3,8 @@ import { Label } from '@ui/label';
 import { Button } from '@ui/button';
 import { Checkbox } from '@ui/checkbox';
 import { ScrollArea } from '@ui/scroll-area';
+import useLinksStore from '@store/linksStore';
+import { useTranslations } from '@/i18n/utils';
 import type { BookmarkProps } from '@models/general';
 import { pastelizeColorPastel } from '@/utils/formattedColor';
 
@@ -25,6 +27,12 @@ interface ImportBookmarksProps {
 
 const ImportBookmarks = ({ bookmarks, setBookmarks, currentBookmark, setCurrentBookmark, isImporting, selectFile, startImport, saveBookmarks, description, setDescription, color, setColor, cancelImport, currentIndex }: ImportBookmarksProps) => {
 
+  const { lang } = useLinksStore()
+
+  const translateLabels = useTranslations(
+    lang
+  );
+
   const selectAll = (all = true) => {
     setBookmarks(bookmarks.map(b => ({ ...b, selected: all })));
   };
@@ -38,11 +46,10 @@ const ImportBookmarks = ({ bookmarks, setBookmarks, currentBookmark, setCurrentB
       {!bookmarks.length && !isImporting && (
         <div className="space-y-4">
           <p className="text-sm text-muted-foreground">
-            Importa marcadores desde un archivo HTML exportado de tu navegador.
+            {translateLabels('bookmarks.importDescription')}
             <br />
             <br />
-            Si usas un navegador basado en Chromium, ve a <span className="font-medium">chrome://bookmarks/</span>,
-            haz clic en los tres puntos ⋮ y selecciona "Exportar marcadores".
+            {translateLabels('bookmarks.importInstructions')}
           </p>
           <div>
             <Input
@@ -54,7 +61,7 @@ const ImportBookmarks = ({ bookmarks, setBookmarks, currentBookmark, setCurrentB
             />
             <label htmlFor="bookmarks-file">
               <Button asChild>
-                <span>Seleccionar archivo de Marcadores (html)</span>
+                <span>{translateLabels('bookmarks.importButton')}</span>
               </Button>
             </label>
           </div>
@@ -65,17 +72,19 @@ const ImportBookmarks = ({ bookmarks, setBookmarks, currentBookmark, setCurrentB
         <div className="space-y-4">
           <div className='flex flex-col md:flex-row gap-2 justify-between items-center'>
             <p className="text-sm text-muted-foreground">
-              Selecciona que links vas a importar.
+              {translateLabels('bookmarks.selectLinks')}
             </p>
             <Button onClick={() => selectAll(bookmarks.filter(b => b.selected).length !== bookmarks?.length)}>
-              {bookmarks.filter(b => b.selected).length !== bookmarks?.length ? "Seleccionar Todos" : "Deseleccionar todos"}
+              {bookmarks.filter(b => b.selected).length !== bookmarks?.length
+                ? translateLabels('bookmarks.selectAll')
+                : translateLabels('bookmarks.deselectAll')}
             </Button>
           </div>
           <ScrollArea className="h-[300px] rounded-md border p-4">
             <div className="space-y-2">
               {bookmarks.map((bookmark, index) => (
-                <div className='flex-col gap-1'>
-                  <div key={index} className="flex items-start space-x-3 max-w-[400px]">
+                <div className='flex-col gap-1' key={index}>
+                  <div className="flex items-start space-x-3 max-w-[400px]">
                     <Checkbox
                       id={`bookmark-${index}`}
                       checked={bookmark.selected}
@@ -90,7 +99,9 @@ const ImportBookmarks = ({ bookmarks, setBookmarks, currentBookmark, setCurrentB
                       htmlFor={`bookmark-${index}`}
                       className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
                     >
-                      <div className="font-medium text-ellipsis">{bookmark.title || "Sin título"}</div>
+                      <div className="font-medium text-ellipsis">
+                        {bookmark.title || translateLabels('bookmarks.noTitle')}
+                      </div>
                       <div className="text-xs text-muted-foreground mt-1 text-ellipsis text-nowrap">
                         {bookmark.url}
                       </div>
@@ -103,10 +114,10 @@ const ImportBookmarks = ({ bookmarks, setBookmarks, currentBookmark, setCurrentB
           </ScrollArea>
           <div className="flex justify-between">
             <Button variant='outline' onClick={cancelImport}>
-              Cancelar
+              {translateLabels('bookmarks.cancel')}
             </Button>
             <Button onClick={startImport}>
-              Marcadores seleccionados ({bookmarks.filter(b => b.selected).length})
+              {translateLabels('bookmarks.selectedBookmarks')} ({bookmarks.filter(b => b.selected).length})
             </Button>
           </div>
         </div>
@@ -114,31 +125,27 @@ const ImportBookmarks = ({ bookmarks, setBookmarks, currentBookmark, setCurrentB
 
       {isImporting && currentBookmark && (
         <div className="space-y-4">
-          {currentIndex + 1} de{bookmarks.filter(b => b.selected).length}
           <div className="space-y-2">
-            <Label>Título</Label>
+            <Label>{translateLabels('bookmarks.title')}</Label>
             <Input
               value={currentBookmark.title}
               onChange={(e) => setCurrentBookmark({ ...currentBookmark, title: e.target.value })}
             />
           </div>
           <div className="space-y-2">
-            <Label>URL</Label>
-            <Input
-              value={currentBookmark.url}
-              disabled
-            />
+            <Label>{translateLabels('bookmarks.url')}</Label>
+            <Input value={currentBookmark.url} disabled />
           </div>
           <div className="space-y-2">
-            <Label>Descripción</Label>
+            <Label>{translateLabels('bookmarks.description')}</Label>
             <Input
-              value={description || "Sin Descripción"}
+              value={description || translateLabels('bookmarks.noDescription')}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Ingresa una descripción..."
+              placeholder={translateLabels('bookmarks.descriptionPlaceholder')}
             />
           </div>
           <div className="space-y-2">
-            <Label>Color</Label>
+            <Label>{translateLabels('bookmarks.color')}</Label>
             <div className="flex gap-2">
               <Input
                 id="color"
@@ -152,15 +159,17 @@ const ImportBookmarks = ({ bookmarks, setBookmarks, currentBookmark, setCurrentB
           </div>
           <div className="flex justify-between gap-2">
             <Button variant='outline' onClick={cancelImport}>
-              Cancelar
+              {translateLabels('bookmarks.cancel')}
             </Button>
             <Button onClick={saveBookmarks}>
-              Save & Continue
+              {translateLabels('bookmarks.saveAndContinue')} ({currentIndex + 1} / {bookmarks.filter(b => b.selected).length})
             </Button>
           </div>
         </div>
-      )}</>
-  )
+      )}
+    </>
+  );
+
 }
 
 export default ImportBookmarks

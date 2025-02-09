@@ -14,6 +14,8 @@ import {
 import LinkItem from './LinkItem';
 import { deleteLink } from '@lib/db';
 import { LinkModal } from './LinkModal';
+import useLinksStore from '@store/linksStore';
+import { useTranslations } from '@/i18n/utils';
 import type { LinkProps } from '@models/general';
 
 interface LinksListProps {
@@ -22,7 +24,13 @@ interface LinksListProps {
   onLinkUpdated: () => void;
 }
 
-export function LinksList({ links, onLinkDeleted, onLinkUpdated }: LinksListProps) {
+const LinksList = ({ links, onLinkDeleted, onLinkUpdated }: LinksListProps) => {
+  const { lang } = useLinksStore()
+
+  const translateLabels = useTranslations(
+    lang
+  );
+
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [selectedLink, setSelectedLink] = useState<LinkProps | null>(null);
 
@@ -51,9 +59,11 @@ export function LinksList({ links, onLinkDeleted, onLinkUpdated }: LinksListProp
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
-          <p className="text-lg text-muted-foreground">No se encontraron enlaces</p>
+          <p className="text-lg text-muted-foreground">
+            {translateLabels("listLinks.noLinksFound")}
+          </p>
           <p className="text-sm text-muted-foreground">
-            Añade algunos enlaces para comenzar!
+            {translateLabels("listLinks.addLinksToStart")}
           </p>
         </motion.div>
       )}
@@ -69,17 +79,21 @@ export function LinksList({ links, onLinkDeleted, onLinkUpdated }: LinksListProp
       <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>¿Estas seguro?</AlertDialogTitle>
+            <AlertDialogTitle>{translateLabels("listLinks.confirmTitle")}</AlertDialogTitle>
             <AlertDialogDescription>
-              Esta acción no se puede deshacer. Eliminará el enlace de forma permanente.
+              {translateLabels("listLinks.confirmDescription")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete}>Eliminar</AlertDialogAction>
+            <AlertDialogCancel>{translateLabels("listLinks.cancel")}</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDelete}>
+              {translateLabels("listLinks.delete")}
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
     </>
   );
 }
+
+export default LinksList
