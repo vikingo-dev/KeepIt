@@ -39,7 +39,9 @@ export function TagSelector({ selectedTags, onTagsChange }: TagSelectorProps) {
           aria-expanded={open}
         >
           <Tag className="w-4 h-4" />
-          Select Tags
+          <p className='hidden md:flex'>
+            Seleccionar Tags
+          </p>
           <ChevronDown className="w-4 h-4 opacity-50" />
         </Button>
       </PopoverTrigger>

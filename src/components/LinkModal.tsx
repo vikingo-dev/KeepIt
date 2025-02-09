@@ -1,37 +1,41 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+
+import { Badge } from '@ui/badge';
+import { Label } from '@ui/label';
+import { Input } from '@ui/input';
+import { Button } from '@ui/button';
+import { Textarea } from '@ui/textarea';
 import {
   Dialog,
-  DialogContent,
-  DialogHeader,
   DialogTitle,
   DialogFooter,
-} from './ui/dialog';
-import { Label } from './ui/label';
-import { Input } from './ui/input';
-import { Textarea } from './ui/textarea';
-import { Button } from './ui/button';
-import { Badge } from './ui/badge';
+  DialogHeader,
+  DialogContent,
+} from '@ui/dialog';
+
+import { updateLink } from '@lib/db';
 import { TagSelector } from './TagSelector';
-import { type Link, updateLink } from '@/lib/db';
+import type { LinkProps } from '@models/general';
+import { pastelizeColorPastel } from '@/utils/formattedColor';
 
 interface LinkModalProps {
-  link: Link | null;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  onDelete: (id: number) => void;
-  onUpdate: () => void;
+  link: LinkProps | null
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  onDelete: (id: number) => void
+  onUpdate: () => void
 }
 
 export function LinkModal({ link, open, onOpenChange, onDelete, onUpdate }: LinkModalProps) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
   const [url, setUrl] = useState('');
+  const [title, setTitle] = useState('');
   const [color, setColor] = useState('#6366f1');
   const [tags, setTags] = useState<string[]>([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [description, setDescription] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Inicializar datos del link
   useEffect(() => {
     if (link) {
       setTitle(link.title);
@@ -42,6 +46,7 @@ export function LinkModal({ link, open, onOpenChange, onDelete, onUpdate }: Link
     }
   }, [link]);
 
+  // Actualizar link
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!link?.id) return;
@@ -58,25 +63,29 @@ export function LinkModal({ link, open, onOpenChange, onDelete, onUpdate }: Link
       onUpdate();
       setIsEditing(false);
     } catch (error) {
-      console.error('Error updating link:', error);
+      console.error('Error actualizando el link:', error);
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const handleColor = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setColor(pastelizeColorPastel(e?.target?.value))
+  }
+
   if (!link) return null;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] md:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{isEditing ? 'Edit Link' : link.title}</DialogTitle>
+          <DialogTitle className='capitalize'>{isEditing ? 'Editando Link' : link.title}</DialogTitle>
         </DialogHeader>
 
         {isEditing ? (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="title">Title</Label>
+              <Label htmlFor="title">Título</Label>
               <Input
                 id="title"
                 value={title}
@@ -89,7 +98,7 @@ export function LinkModal({ link, open, onOpenChange, onDelete, onUpdate }: Link
               <Label htmlFor="description">Description</Label>
               <Textarea
                 id="description"
-                value={description}
+                value={description || "Sin Descripción"}
                 onChange={(e) => setDescription(e.target.value)}
                 required
               />
@@ -111,16 +120,13 @@ export function LinkModal({ link, open, onOpenChange, onDelete, onUpdate }: Link
                   id="color"
                   type="color"
                   value={color}
-                  onChange={(e) => setColor(e.target.value)}
-                  className="w-20 h-10 p-1"
+                  onChange={handleColor}
+                  className="w-10 h-10 p-1 rounded-md"
                 />
-                <div
-                  className="flex-1 rounded-md"
-                  style={{ backgroundColor: color }}
-                />
+                <div className='w-full h-10 rounded-md' style={{ backgroundColor: color }} />
               </div>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 space-x-2 items-center flex">
               <Label>Tags</Label>
               <TagSelector selectedTags={tags} onTagsChange={setTags} />
             </div>
@@ -140,7 +146,7 @@ export function LinkModal({ link, open, onOpenChange, onDelete, onUpdate }: Link
         ) : (
           <div className="space-y-4">
             <div>
-              <Label className="text-sm text-muted-foreground">Description</Label>
+              <Label className="text-sm text-muted-foreground">Descripción</Label>
               <p className="mt-1">{link.description}</p>
             </div>
             <div>
@@ -159,11 +165,13 @@ export function LinkModal({ link, open, onOpenChange, onDelete, onUpdate }: Link
             <div>
               <Label className="text-sm text-muted-foreground">Tags</Label>
               <div className="flex flex-wrap gap-2 mt-2">
-                {link.tags.map((tag) => (
+                {link.tags.length > 0 ? link.tags.map((tag) => (
                   <Badge key={tag} variant="secondary">
                     {tag}
                   </Badge>
-                ))}
+                )) : (
+                  <div className='text-gray-700 bg-gray-200 rounded-full px-2 text-sm'>Sin tags</div>
+                )}
               </div>
             </div>
             <div>
@@ -179,9 +187,9 @@ export function LinkModal({ link, open, onOpenChange, onDelete, onUpdate }: Link
                 variant="outline"
                 onClick={() => onDelete(link.id!)}
               >
-                Delete
+                Eliminar
               </Button>
-              <Button onClick={() => setIsEditing(true)}>Edit</Button>
+              <Button onClick={() => setIsEditing(true)}>Editar</Button>
             </DialogFooter>
           </div>
         )}

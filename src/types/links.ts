@@ -1,4 +1,20 @@
 interface LinkProps {
-  id: string
+  id?: number
+  title: string
+  description: string
+  url: string
+  tags: string[]
+  color: string
+  createdAt: Date
+}
 
+interface BookmarkProps {
+  title: string;
+  url: string;
+  selected?: boolean;
+}
+
+export type {
+  LinkProps,
+  BookmarkProps
 }

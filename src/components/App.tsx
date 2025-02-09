@@ -1,19 +1,20 @@
 import { useState, useEffect } from 'react';
+import { ToastContainer } from "react-toastify";
 import { motion, AnimatePresence } from 'framer-motion';
+
 import { Navbar } from './Navbar';
 import { SearchBar } from './SearchBar';
-import { FloatingButton } from './FloatingButton';
 import { LinksList } from './LinksList';
-import { type Link, getAllLinks, searchLinks } from '@/lib/db';
+import type { LinkProps } from '@models/general';
+import { FloatingButton } from './FloatingButton';
+import { getAllLinks, searchLinks } from '@/lib/db';
+import ModalNewUser from './ModalNewUser';
 
 export function App() {
-  const [links, setLinks] = useState<Link[]>([]);
+  const [links, setLinks] = useState<LinkProps[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    loadLinks();
-  }, []);
-
+  // Cargar lista de links
   const loadLinks = async () => {
     setIsLoading(true);
     const data = await getAllLinks();
@@ -21,17 +22,31 @@ export function App() {
     setIsLoading(false);
   };
 
+  // Buscar
   const handleSearch = async (query: string, tags: string[]) => {
+    setIsLoading(true);
     const results = await searchLinks(query, tags);
     setLinks(results);
+    setIsLoading(false);
+
   };
 
+  // Se añadio un nuevo link, se vuelve a cargar la lista
   const handleLinkAdded = () => {
     loadLinks();
   };
 
+  useEffect(() => {
+    loadLinks();
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
+      <ModalNewUser />
+      <ToastContainer
+        position="bottom-right"
+      />
+
       <Navbar />
       <motion.div
         className="container mx-auto px-4 pt-24 pb-20"

@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Plus } from 'lucide-react';
-import { Button } from './ui/button';
+import { motion } from 'framer-motion';
+
+import { Button } from '@ui/button';
 import { AddLinkModal } from './AddLinkModal';
 
 interface FloatingButtonProps {
@@ -21,11 +22,11 @@ export function FloatingButton({ onLinkAdded }: FloatingButtonProps) {
         whileTap={{ scale: 0.9 }}
       >
         <Button
-          size="lg"
+          size='icon'
           className="rounded-full w-14 h-14 shadow-lg"
           onClick={() => setIsModalOpen(true)}
         >
-          <Plus className="w-6 h-6" />
+          <Plus className="w-6 h-6 text-white" />
         </Button>
       </motion.div>
       <AddLinkModal
