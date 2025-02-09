@@ -9,6 +9,7 @@ import {
 } from '@ui/dialog';
 import { Input } from '@ui/input';
 import { Button } from '@ui/button';
+import { configSite } from 'config';
 import useLinksStore from '@store/linksStore';
 import { useTranslations } from '@/i18n/utils';
 import { parseBookmarks } from '@lib/bookmarks';
@@ -136,7 +137,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>{translateLabels('settings.title')}</DialogTitle>
+          <DialogTitle>{translateLabels('settings.title')} {configSite.version}</DialogTitle>
         </DialogHeader>
 
         <Tabs defaultValue="export" className="w-full">
