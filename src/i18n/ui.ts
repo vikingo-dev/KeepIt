@@ -44,6 +44,11 @@ export const labels = {
     "listLinks.cancel": "Cancelar",
     "listLinks.delete": "Eliminar",
 
+    "tagModal.confirmTitle": "¿Estas seguro?",
+    "tagModal.confirmDescription": "Esta acción no se puede deshacer. Eliminará la etiqueta de forma permanente.",
+    "tagModal.cancel": "Cancelar",
+    "tagModal.delete": "Eliminar",
+
     "linkItem.title": "Sin título",
 
     "linkModal.editing": "Editando Link",
@@ -97,8 +102,8 @@ export const labels = {
     "settings.importButton": "Select JSON file",
 
     "bookmarks.importDescription": "Import bookmarks from an HTML file exported from your browser.",
-    "bookmarks.importInstructions": "If you are using a Chromium-based browser, go to chrome://bookmarks/, click on the three dots ⋮, and select 'Export bookmarks'.",
-    "bookmarks.importButton": "Select Bookmarks file (html)",
+    "bookmarks.importInstructions": "If you use a Chromium-based browser, go to chrome://bookmarks/, click the three dots ⋮, and select 'Export bookmarks'.",
+    "bookmarks.importButton": "Select Bookmarks File (HTML)",
     "bookmarks.selectLinks": "Select which links to import.",
     "bookmarks.selectAll": "Select All",
     "bookmarks.deselectAll": "Deselect All",
@@ -113,6 +118,7 @@ export const labels = {
     "bookmarks.color": "Color",
     "bookmarks.saveAndContinue": "Save and Continue",
 
+    "search.addTag": "Add Tag",
     "search.placeholder": "Search links...",
     "search.selectedTags": "Select Tags",
 
@@ -122,6 +128,11 @@ export const labels = {
     "listLinks.confirmDescription": "This action cannot be undone. It will permanently delete the link.",
     "listLinks.cancel": "Cancel",
     "listLinks.delete": "Delete",
+
+    "tagModal.confirmTitle": "Are you sure?",
+    "tagModal.confirmDescription": "This action cannot be undone. It will permanently delete the tag.",
+    "tagModal.cancel": "Cancel",
+    "tagModal.delete": "Delete",
 
     "linkItem.title": "No title",
 
@@ -151,13 +162,15 @@ export const labels = {
 
     "modalNewUser.title": "Welcome to",
     "modalNewUser.description1": "📌 Organize and manage your links",
+    "modalNewUser.span": "super efficiently",
     "modalNewUser.description2": "We know that finding a website among hundreds of bookmarks is chaos.",
     "modalNewUser.description3": "With",
-    "modalNewUser.description4": "everything will be in its place, ready for when you need it",
-    "modalNewUser.span": "super efficient",
-    "modalNewUser.import": "super efficient",
+    "modalNewUser.description4": "everything will be in place, ready when you need it.",
+    "modalNewUser.import": "📂 Migrate your browser bookmarks in just a few clicks. Never lose an important link again!",
+    "modalNewUser.migrate": "🔄 Switched browsers? Export your links and bring them here easily.",
+    "modalNewUser.categories": "📂 Separate your links by categories to find them faster and without stress.",
     "modalNewUser.button": "🎉 Got it, let's start!",
 
-    "theme.coomingsoon": "Customize the theme to your liking very soon 🎨!"
+    "theme.coomingsoon": "Coming soon! Customize your theme as you like 🎨!"
   }
 }

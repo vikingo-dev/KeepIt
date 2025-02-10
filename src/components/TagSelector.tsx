@@ -217,14 +217,14 @@ export function TagSelector({ selectedTags, onTagsChange }: TagSelectorProps) {
       <AlertDialog open={!!deleteTagId} onOpenChange={() => setDeleteTagId(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>{translateLabels("tagModal.confirmTitle")}</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete this tag and remove it from all links.
+              {translateLabels("tagModal.confirmDescription")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDeleteTag}>Delete</AlertDialogAction>
+            <AlertDialogCancel>{translateLabels("tagModal.cancel")}</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteTag}>{translateLabels("tagModal.delete")}</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
