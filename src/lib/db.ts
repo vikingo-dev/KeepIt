@@ -1,7 +1,7 @@
 import { openDB } from 'idb';
 
 import { configSite } from 'config';
-import type { LinkProps } from '@models/general';
+import type { LinkProps, TagProps } from '@models/general';
 
 const dbName = `${configSite.name}-links-db`;
 const storeName = 'links';
@@ -89,10 +89,13 @@ export async function deleteLink(id: number) {
   return db.delete(storeName, id);
 }
 
-// Obtener base de datos, pasarla a json y descargar
+// Obtener base de datos, pasarla a JSON y descargar
 export async function exportData() {
   const links = await getAllLinks();
-  const blob = new Blob([JSON.stringify(links, null, 2)], { type: 'application/json' });
+  const tags = await getAllTags();
+
+  const data = { links, tags };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
@@ -103,19 +106,29 @@ export async function exportData() {
   URL.revokeObjectURL(url);
 }
 
-// Importar: Recibe un json previamente exportado de otro navegador o dispositivo
+// Importar: Recibe un JSON previamente exportado
 export async function importData(jsonData: string) {
   try {
-    const links = JSON.parse(jsonData);
-    const db = await initDB();
-    const tx = db.transaction(storeName, 'readwrite');
+    const { links, tags } = JSON.parse(jsonData);
+    const dbLinks = await initDB();
+    const dbTags = await initTagDB();
+
+    const txLinks = dbLinks.transaction(storeName, 'readwrite');
+    const txTags = dbTags.transaction(tagStoreName, 'readwrite');
+
     await Promise.all([
-      ...links.map((link: LinkProps) => tx.store.add({
+      ...links.map((link: LinkProps) => txLinks.store.add({
         ...link,
-        createdAt: new Date(link.createdAt)
+        createdAt: new Date(link.createdAt),
       })),
-      tx.done
+      ...tags.map((tag: TagProps) => txTags.store.add({
+        ...tag,
+        createdAt: new Date(tag.createdAt),
+      })),
+      txLinks.done,
+      txTags.done
     ]);
+
     return true;
   } catch (error) {
     console.error('Error importing data:', error);
