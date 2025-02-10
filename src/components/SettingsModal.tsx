@@ -24,7 +24,7 @@ interface SettingsModalProps {
 }
 
 export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
-  const { lang } = useLinksStore()
+  const { lang, getLinks } = useLinksStore()
 
   const translateLabels = useTranslations(
     lang
@@ -114,6 +114,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
       } else {
         setIsImporting(false);
         onOpenChange(false);
+        getLinks()
       }
     } catch (error) {
       if (error instanceof Error && error.message === "Ya existe un enlace con esta URL.") {
