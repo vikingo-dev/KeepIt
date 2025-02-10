@@ -8,6 +8,12 @@ interface LinkProps {
   createdAt: Date
 }
 
+interface TagProps {
+  id?: string
+  title: string
+  createdAt: Date
+}
+
 interface BookmarkProps {
   title: string;
   url: string;
@@ -16,5 +22,6 @@ interface BookmarkProps {
 
 export type {
   LinkProps,
-  BookmarkProps
+  BookmarkProps,
+  TagProps
 }

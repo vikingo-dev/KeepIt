@@ -3,8 +3,11 @@ import { openDB } from 'idb';
 import { configSite } from 'config';
 import type { LinkProps } from '@models/general';
 
-const dbName = `${configSite.title}-links-db`;
+const dbName = `${configSite.name}-links-db`;
 const storeName = 'links';
+
+const dbNameTgas = `${configSite.name}-tags-db`;
+const tagStoreName = 'tags';
 
 // Inicializar base de datos
 export async function initDB() {
@@ -119,9 +122,6 @@ export async function importData(jsonData: string) {
   }
 }
 
-const dbNameTgas = `${configSite.title}-tags-db`;
-const tagStoreName = 'tags';
-
 // Initialize database for tags
 export async function initTagDB() {
   const db = await openDB(dbNameTgas, 1, {
@@ -135,9 +135,9 @@ export async function initTagDB() {
 }
 
 // Create a new tag
-export async function addTag(name: string) {
+export async function addTag(title: string) {
   const db = await initTagDB();
-  return db.add(tagStoreName, { name, createdAt: new Date() });
+  return db.add(tagStoreName, { title: title?.toLowerCase(), createdAt: new Date() });
 }
 
 // Get all tags
@@ -147,15 +147,22 @@ export async function getAllTags() {
 }
 
 // Update a tag
-export async function updateTag(id: number, name: string) {
+export async function updateTag(id: string, title: string) {
   const db = await initTagDB();
   const existingTag = await db.get(tagStoreName, id);
   if (!existingTag) throw new Error('Tag not found');
-  return db.put(tagStoreName, { ...existingTag, name });
+  return db.put(tagStoreName, { ...existingTag, title: title?.toLowerCase() });
 }
 
 // Delete a tag
-export async function deleteTag(id: number) {
+export async function deleteTag(id: string) {
   const db = await initTagDB();
   return db.delete(tagStoreName, id);
+}
+
+// Get multiple tags by IDs
+export async function getTagsByIds(ids: string[]) {
+  const db = await initTagDB();
+  const tags = await Promise.all(ids.map(id => db.get(tagStoreName, id)));
+  return tags.filter(tag => tag !== undefined); // Filtrar valores undefined si algún ID no existe
 }
