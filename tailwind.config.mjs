@@ -21,7 +21,7 @@ export default {
           foreground: 'hsl(var(--popover-foreground))',
         },
         linkbg: {
-          DEFAULT: '#6366f1'
+          DEFAULT: 'hsl(239,  84%, 67%)'
         },
         primary: {
           DEFAULT: 'hsl(var(--primary))',
