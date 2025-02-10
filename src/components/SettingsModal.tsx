@@ -30,7 +30,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
     lang
   );
 
-  const [color, setColor] = useState('#6366f1');
+  const [color, setColor] = useState('hsl(239,  84%, 67%)');
   const [tags, setTags] = useState<string[]>([]);
   const [description, setDescription] = useState('');
   const [isImporting, setIsImporting] = useState(false);

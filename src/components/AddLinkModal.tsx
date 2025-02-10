@@ -11,6 +11,7 @@ import useLinksStore from '@store/linksStore';
 import { useTranslations } from '@/i18n/utils';
 import { pastelizeColorPastel } from '@/utils/formattedColor';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@ui/dialog';
+import type { TagProps } from '@/types/links';
 
 interface AddLinkModalProps {
   open: boolean;
@@ -22,8 +23,8 @@ export function AddLinkModal({ open, onOpenChange }: AddLinkModalProps) {
 
   const [url, setUrl] = useState('');
   const [title, setTitle] = useState('');
-  const [color, setColor] = useState('#6366f1');
-  const [tags, setTags] = useState<string[]>([]);
+  const [color, setColor] = useState('hsl(239,  84%, 67%)');
+  const [tags, setTags] = useState<TagProps[]>([]);
   const [description, setDescription] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -38,18 +39,18 @@ export function AddLinkModal({ open, onOpenChange }: AddLinkModalProps) {
         description,
         url,
         color,
-        tags,
+        tags: tags.length > 0 ? tags.map(tag => tag.id) : [], // Solo enviar los IDs
       });
       getLinks();
       onOpenChange(false);
       resetForm();
     } catch (error) {
       if (error instanceof Error && error.message === "Ya existe un enlace con esta URL.") {
-        toast.warn(error.message)
+        toast.warn(error.message);
       } else {
-        toast.error("Verifica los datos que intentas guardar")
+        toast.error("Verifica los datos que intentas guardar");
       }
-      console.error('Error agregando el link:', error);
+      console.error("Error agregando el link:", error);
     } finally {
       setIsSubmitting(false);
     }
@@ -60,7 +61,7 @@ export function AddLinkModal({ open, onOpenChange }: AddLinkModalProps) {
     setTitle('');
     setDescription('');
     setUrl('');
-    setColor('#6366f1');
+    setColor('hsl(239,  84%, 67%)');
     setTags([]);
   };
 

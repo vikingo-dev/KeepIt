@@ -13,11 +13,11 @@ import {
   DialogContent,
 } from '@ui/dialog';
 
-import { updateLink } from '@lib/db';
+import { getTagsByIds, updateLink } from '@lib/db';
 import { TagSelector } from './TagSelector';
 import useLinksStore from '@store/linksStore';
 import { useTranslations } from '@/i18n/utils';
-import type { LinkProps } from '@models/general';
+import type { LinkProps, TagProps } from '@models/general';
 import { pastelizeColorPastel } from '@/utils/formattedColor';
 
 interface LinkModalProps {
@@ -36,11 +36,16 @@ export function LinkModal({ link, open, onOpenChange, onDelete, onUpdate }: Link
 
   const [url, setUrl] = useState('');
   const [title, setTitle] = useState('');
-  const [color, setColor] = useState('#6366f1');
-  const [tags, setTags] = useState<string[]>([]);
+  const [color, setColor] = useState('hsl(239,  84%, 67%)');
+  const [tags, setTags] = useState<TagProps[]>([]);
   const [isEditing, setIsEditing] = useState(false);
   const [description, setDescription] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const _getTagsForIds = async (ids: string[]) => {
+    const dataTags = await getTagsByIds(ids);
+    setTags(dataTags)
+  }
 
   // Inicializar datos del link
   useEffect(() => {
@@ -49,7 +54,7 @@ export function LinkModal({ link, open, onOpenChange, onDelete, onUpdate }: Link
       setDescription(link.description);
       setUrl(link.url);
       setColor(link.color);
-      setTags(link.tags);
+      _getTagsForIds(link.tags || []);
     }
   }, [link]);
 
@@ -65,7 +70,7 @@ export function LinkModal({ link, open, onOpenChange, onDelete, onUpdate }: Link
         description,
         url,
         color,
-        tags,
+        tags: tags.length > 0 ? tags.map(tag => tag.id) : [],
       });
       onUpdate();
       setIsEditing(false);
@@ -176,9 +181,9 @@ export function LinkModal({ link, open, onOpenChange, onDelete, onUpdate }: Link
             <div>
               <Label className="text-sm text-muted-foreground">{translateLabels("linkModal.tags")}</Label>
               <div className="flex flex-wrap gap-2 mt-2">
-                {link.tags.length > 0 ? link.tags.map((tag) => (
-                  <Badge key={tag} variant="secondary">
-                    {tag}
+                {tags.length > 0 ? tags.map((tag) => (
+                  <Badge key={tag.id} variant="secondary" className='capitalize'>
+                    {tag.title}
                   </Badge>
                 )) : (
                   <div className='text-gray-700 bg-gray-200 rounded-full px-2 text-sm'>

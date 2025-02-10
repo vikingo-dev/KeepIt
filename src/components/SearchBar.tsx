@@ -6,27 +6,29 @@ import { Input } from '@ui/input';
 import { TagSelector } from './TagSelector';
 import useLinksStore from '@store/linksStore';
 import { useTranslations } from '@/i18n/utils';
+import type { TagProps } from '@/types/links';
 
 const SearchBar = () => {
   const { handleSearch, lang } = useLinksStore()
   const [query, setQuery] = useState('');
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [selectedTags, setSelectedTags] = useState<TagProps[]>([]);
 
   // Cambiar texto a buscar 
-  const handleSearchStates = (newQuery: string, newTags: string[] = selectedTags) => {
+  const handleSearchStates = (newQuery: string, newTags: TagProps[] = selectedTags) => {
     setQuery(newQuery);
-    handleSearch(newQuery, newTags);
+    const tagIds = newTags.map(tag => tag.id); // Extraer solo los IDs
+    handleSearch(newQuery, tagIds);
   };
 
-  // Seleccionar tags en busqueda
-  const handleTagsChange = (newTags: string[]) => {
+  // Seleccionar tags en búsqueda
+  const handleTagsChange = (newTags: TagProps[]) => {
     setSelectedTags(newTags);
-    handleSearch(query, newTags);
+    const tagIds = newTags.map(tag => tag.id); // Extraer solo los IDs
+    handleSearch(query, tagIds);
   };
-
-  // Remover tags en la busqueda
-  const removeTag = (tag: string) => {
-    const newTags = selectedTags.filter(t => t !== tag);
+  // Remover tags en la búsqueda
+  const removeTag = (tag: TagProps) => {
+    const newTags = selectedTags.filter(t => t.id !== tag.id);
     handleTagsChange(newTags);
   };
 
@@ -68,7 +70,7 @@ const SearchBar = () => {
           >
             {selectedTags.map((tag) => (
               <motion.button
-                key={tag}
+                key={tag.id}
                 className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary/10 text-sm capitalize"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
@@ -76,7 +78,7 @@ const SearchBar = () => {
                 layout
                 onClick={() => removeTag(tag)}
               >
-                {tag}
+                {tag.title}
                 <X className="w-3 h-3" />
               </motion.button>
             ))}
