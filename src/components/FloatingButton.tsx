@@ -11,7 +11,7 @@ const FloatingButton = () => {
   return (
     <>
       <motion.div
-        className="fixed bottom-6 right-6"
+        className="fixed bottom-6 right-4 md:right-20"
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         whileHover={{ scale: 1.1 }}
