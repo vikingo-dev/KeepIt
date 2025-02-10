@@ -36,6 +36,7 @@ export async function addLink(link: Omit<LinkProps, 'id' | 'createdAt'>) {
 
   return db.add(storeName, {
     ...link,
+    id: crypto.randomUUID(),
     createdAt: new Date(),
   });
 }
@@ -137,7 +138,11 @@ export async function initTagDB() {
 // Create a new tag
 export async function addTag(title: string) {
   const db = await initTagDB();
-  return db.add(tagStoreName, { title: title?.toLowerCase(), createdAt: new Date() });
+  return db.add(tagStoreName, {
+    id: crypto.randomUUID(),
+    title: title?.toLowerCase(),
+    createdAt: new Date()
+  });
 }
 
 // Get all tags
