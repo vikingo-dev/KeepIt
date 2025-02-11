@@ -86,7 +86,10 @@ export const labels = {
     "modalNewUser.categories": "📂 Separa tus links por categorías para encontrarlos más rápido y sin estrés.",
     "modalNewUser.button": "🎉 ¡Entendido, quiero empezar!",
 
-    "theme.coomingsoon": "¡Muy pronto personaliza el tema a tu gusto 🎨!"
+    "theme.coomingsoon": "¡Muy pronto personaliza el tema a tu gusto 🎨!",
+
+    "footer.made": "Creado por",
+    "footer.by": "@vikingo-dev"
   },
   en: {
     "layout.title": "Organize your resources",
@@ -171,6 +174,9 @@ export const labels = {
     "modalNewUser.categories": "📂 Separate your links by categories to find them faster and without stress.",
     "modalNewUser.button": "🎉 Got it, let's start!",
 
-    "theme.coomingsoon": "Coming soon! Customize your theme as you like 🎨!"
+    "theme.coomingsoon": "Coming soon! Customize your theme as you like 🎨!",
+
+    "footer.made": "Made by",
+    "footer.by": "@vikingo-dev"
   }
 }
