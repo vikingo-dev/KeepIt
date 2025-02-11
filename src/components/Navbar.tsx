@@ -10,12 +10,12 @@ const Navbar = () => {
 
   return (
     <motion.nav
-      className="fixed top-0 left-0 right-0 h-16 bg-background/80 backdrop-blur-lg border-b z-50"
+      className="fixed top-0 left-0 right-0 h-16 bg-background/80 backdrop-blur-lg border-b z-50 flex justify-center"
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 100 }}
     >
-      <div className="container h-full mx-auto padContainer flex items-center justify-between">
+      <div className="container h-full padContainer flex items-center justify-between">
         <motion.div
           className="flex items-center gap-2"
           whileHover={{ scale: 1.05 }}

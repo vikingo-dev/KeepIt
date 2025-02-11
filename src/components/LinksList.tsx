@@ -45,7 +45,7 @@ const LinksList = ({ links, onLinkDeleted, onLinkUpdated }: LinksListProps) => {
 
   return (
     <>
-      <div className="flex flex-wrap gap-3 mt-8">
+      <div className="flex flex-wrap justify-center gap-3 mt-8">
         <AnimatePresence>
           {links.map((link) => (
             <LinkItem key={link?.id} link={link} setSelectedLink={setSelectedLink} />

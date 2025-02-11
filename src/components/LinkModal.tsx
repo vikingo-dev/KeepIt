@@ -172,7 +172,7 @@ export function LinkModal({ link, open, onOpenChange, onDelete, onUpdate }: Link
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-primary hover:underline"
+                  className="text-primary hover:underline overflow-hidden text-ellipsis whitespace-nowrap max-w-[300px] block"
                 >
                   {link.url}
                 </a>

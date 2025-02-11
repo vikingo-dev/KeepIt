@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ExternalLink } from 'lucide-react';
+import { ChevronsUpDown, ExternalLink } from 'lucide-react';
 
 import { Button } from '@ui/button';
 import useLinksStore from '@store/linksStore';
@@ -26,10 +26,10 @@ const LinkItem = ({ link, setSelectedLink }: { link: LinkProps, setSelectedLink:
       <div className={`rounded-lg shadow-sm hover:shadow-lg transition-shadow px-3 py-1 flex items-center gap-3 max-w-[400px] min-w-[250px] flex-1`}
         style={{
           backgroundColor: link?.color || "white",
-          color: getDarkerColor((link.color)),
+          color: getDarkerColor((link.color), 0.35),
         }}>
         <button
-          onClick={() => setSelectedLink(link)}
+          onClick={() => window.open(link.url, '_blank')}
           className="flex-1 text-left w-full"
         >
           <h3 className="font-medium line-clamp-1 capitalize text-sm">
@@ -40,9 +40,9 @@ const LinkItem = ({ link, setSelectedLink }: { link: LinkProps, setSelectedLink:
           variant="ghost"
           size="icon"
           className="shrink-0"
-          onClick={() => window.open(link.url, '_blank')}
+          onClick={() => setSelectedLink(link)}
         >
-          <ExternalLink className="w-4 h-4" />
+          <ChevronsUpDown className="w-5 h-5" />
         </Button>
       </div>
     </motion.div>
