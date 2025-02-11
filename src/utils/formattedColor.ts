@@ -21,8 +21,8 @@ export const pastelizeColorPastel = (hex: string) => {
   }
 
   // Ajustar saturación y luminosidad a valores más equilibrados
-  s = 85;  // Aumenta la saturación
-  l = 75;  // Baja la luminosidad para evitar que sea tan claro
+  s = 90;  // Aumenta la saturación
+  l = 70;  // Baja la luminosidad para evitar que sea tan claro
 
   return `hsl(${h}, ${s}%, ${l}%)`;
 };
