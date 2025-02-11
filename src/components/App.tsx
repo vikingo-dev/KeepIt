@@ -3,11 +3,12 @@ import { ToastContainer } from "react-toastify";
 import { motion, AnimatePresence } from "framer-motion";
 
 import Navbar from "./Navbar";
-import { languageList } from "@/i18n/ui";
+import Footer from "./Footer";
 import SearchBar from "./SearchBar";
 import LinksList from "./LinksList";
-import useLinksStore from "@store/linksStore";
+import { languageList } from "@/i18n/ui";
 import ModalNewUser from "./ModalNewUser";
+import useLinksStore from "@store/linksStore";
 import FloatingButton from "./FloatingButton";
 
 const App = ({ lang }: { lang: keyof typeof languageList }) => {
@@ -22,14 +23,13 @@ const App = ({ lang }: { lang: keyof typeof languageList }) => {
   }, [lang])
 
   return (
-    <div className="min-h-screen relative">
-
+    <div className="min-h-screen flex flex-col">
       <ModalNewUser />
       <ToastContainer position="bottom-right" />
-
       <Navbar />
+
       <motion.div
-        className="container mx-auto padContainer pt-24 pb-20"
+        className="container mx-auto padContainer pt-24 pb-20 flex-1 flex flex-col"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
@@ -37,7 +37,7 @@ const App = ({ lang }: { lang: keyof typeof languageList }) => {
         <AnimatePresence>
           {isLoading ? (
             <motion.div
-              className="flex justify-center items-center h-64"
+              className="flex justify-center items-center flex-1"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -49,10 +49,12 @@ const App = ({ lang }: { lang: keyof typeof languageList }) => {
           )}
         </AnimatePresence>
       </motion.div>
+
+      <Footer />
       <FloatingButton />
     </div>
+  );
 
-  )
 }
 
 export default App
