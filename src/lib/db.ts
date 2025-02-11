@@ -119,10 +119,12 @@ export async function importData(jsonData: string) {
     await Promise.all([
       ...links.map((link: LinkProps) => txLinks.store.add({
         ...link,
+        title: link?.title?.toLowerCase() || "Sin título",
         createdAt: new Date(link.createdAt),
       })),
       ...tags.map((tag: TagProps) => txTags.store.add({
         ...tag,
+        title: tag?.title?.toLowerCase() || "Sin título",
         createdAt: new Date(tag.createdAt),
       })),
       txLinks.done,
