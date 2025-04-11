@@ -10,7 +10,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@ui/alert-dialog';
+} from '@shadcn/alert-dialog';
 import LinkItem from './LinkItem';
 import { deleteLink } from '@lib/db';
 import { LinkModal } from './LinkModal';

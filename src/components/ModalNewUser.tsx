@@ -6,7 +6,7 @@ import {
   DialogTitle,
   DialogHeader,
   DialogContent,
-} from '@ui/dialog';
+} from '@shadcn/dialog';
 import { configSite } from 'config';
 import useLinksStore from '@store/linksStore';
 import { useTranslations } from '@/i18n/utils';

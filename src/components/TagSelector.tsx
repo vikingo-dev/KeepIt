@@ -6,16 +6,16 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@ui/popover';
-import { Input } from '@ui/input';
-import { Button } from '@ui/button';
-import { Checkbox } from '@ui/checkbox';
-import { ScrollArea } from '@ui/scroll-area';
+} from '@shadcn/popover';
+import { Input } from '@shadcn/input';
+import { Button } from '@shadcn/button';
+import { Checkbox } from '@shadcn/checkbox';
+import { ScrollArea } from '@shadcn/scroll-area';
 import useLinksStore from '@/store/linksStore';
 import { useTranslations } from '@/i18n/utils';
 import type { TagProps } from '@models/general';
 import { addTag, deleteTag, getAllTags, updateTag } from '@lib/db';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@ui/alert-dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@shadcn/alert-dialog';
 
 interface TagSelectorProps {
   selectedTags: TagProps[];
@@ -102,7 +102,6 @@ export function TagSelector({ selectedTags, onTagsChange }: TagSelectorProps) {
 
     onTagsChange(newTags);
   };
-
 
   useEffect(() => {
     loadTags()

@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
 
-import { Badge } from '@ui/badge';
-import { Label } from '@ui/label';
-import { Input } from '@ui/input';
-import { Button } from '@ui/button';
-import { Textarea } from '@ui/textarea';
+import { Badge } from '@shadcn/badge';
+import { Label } from '@shadcn/label';
+import { Input } from '@shadcn/input';
+import { Button } from '@shadcn/button';
+import { Textarea } from '@shadcn/textarea';
 import {
   Dialog,
   DialogTitle,
   DialogFooter,
   DialogHeader,
   DialogContent,
-} from '@ui/dialog';
+} from '@shadcn/dialog';
 
 import { getTagsByIds, updateLink } from '@lib/db';
 import { TagSelector } from './TagSelector';

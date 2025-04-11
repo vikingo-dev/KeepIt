@@ -6,9 +6,9 @@ import {
   DialogTitle,
   DialogHeader,
   DialogContent,
-} from '@ui/dialog';
-import { Input } from '@ui/input';
-import { Button } from '@ui/button';
+} from '@shadcn/dialog';
+import { Input } from '@shadcn/input';
+import { Button } from '@shadcn/button';
 import { configSite } from 'config';
 import useLinksStore from '@store/linksStore';
 import { useTranslations } from '@/i18n/utils';
@@ -16,7 +16,7 @@ import { parseBookmarks } from '@lib/bookmarks';
 import type { BookmarkProps } from '@models/general';
 import { exportData, importData, addLink } from '@lib/db';
 import ImportBookmarks from './settings/bookmarks/ImportBookmarks';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@ui/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@shadcn/tabs';
 
 interface SettingsModalProps {
   open: boolean;

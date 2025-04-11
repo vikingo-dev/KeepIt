@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Search, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-import { Input } from '@ui/input';
+import { Input } from '@shadcn/input';
 import { TagSelector } from './TagSelector';
 import useLinksStore from '@store/linksStore';
 import { useTranslations } from '@/i18n/utils';

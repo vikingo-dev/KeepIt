@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { ChevronsUpDown, ExternalLink } from 'lucide-react';
 
-import { Button } from '@ui/button';
+import { Button } from '@shadcn/button';
 import useLinksStore from '@store/linksStore';
 import { useTranslations } from '@/i18n/utils';
 import type { LinkProps } from '@models/general'

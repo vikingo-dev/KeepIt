@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Plus } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-import { Button } from '@ui/button';
+import { Button } from '@shadcn/button';
 import { AddLinkModal } from './AddLinkModal';
 
 const FloatingButton = () => {

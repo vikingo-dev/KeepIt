@@ -1,8 +1,8 @@
-import { Input } from '@ui/input';
-import { Label } from '@ui/label';
-import { Button } from '@ui/button';
-import { Checkbox } from '@ui/checkbox';
-import { ScrollArea } from '@ui/scroll-area';
+import { Input } from '@shadcn/input';
+import { Label } from '@shadcn/label';
+import { Button } from '@shadcn/button';
+import { Checkbox } from '@shadcn/checkbox';
+import { ScrollArea } from '@shadcn/scroll-area';
 import useLinksStore from '@store/linksStore';
 import { useTranslations } from '@/i18n/utils';
 import type { BookmarkProps } from '@models/general';

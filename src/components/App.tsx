@@ -28,27 +28,29 @@ const App = ({ lang }: { lang: keyof typeof languageList }) => {
       <ToastContainer position="bottom-right" />
       <Navbar />
 
-      <motion.div
-        className="container mx-auto padContainer pt-24 pb-20 flex-1 flex flex-col"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-      >
-        <SearchBar />
-        <AnimatePresence>
-          {isLoading ? (
-            <motion.div
-              className="flex justify-center items-center flex-1"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-            </motion.div>
-          ) : (
-            <LinksList links={links} onLinkDeleted={getLinks} onLinkUpdated={getLinks} />
-          )}
-        </AnimatePresence>
-      </motion.div>
+      <div className="flex-1 flex flex-col">
+        <motion.div
+          className="container mx-auto padContainer pt-24 pb-20 flex-1 flex flex-col"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          <SearchBar />
+          <AnimatePresence>
+            {isLoading ? (
+              <motion.div
+                className="flex justify-center items-center flex-1"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+              </motion.div>
+            ) : (
+              <LinksList links={links} onLinkDeleted={getLinks} onLinkUpdated={getLinks} />
+            )}
+          </AnimatePresence>
+        </motion.div>
+      </div>
 
       <Footer />
       <FloatingButton />
