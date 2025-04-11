@@ -74,6 +74,8 @@ export const labels = {
     "addModalLink.label.tags": "Tags",
     "addModalLink.button.creating": "Creando...",
     "addModalLink.button.create": "Crear link",
+    "addModalLink.placeholder.emoji": "✨",
+    "addModalLink.label.emoji": "Emoji",
 
     "modalNewUser.title": "¡Bienvenido a",
     "modalNewUser.description1": "📌 Organiza y gestiona tus enlaces de manera",
@@ -162,6 +164,8 @@ export const labels = {
     "addModalLink.label.tags": "Tags",
     "addModalLink.button.creating": "Creating...",
     "addModalLink.button.create": "Create link",
+    "addModalLink.placeholder.emoji": "✨",
+    "addModalLink.label.emoji": "Emoji",
 
     "modalNewUser.title": "Welcome to",
     "modalNewUser.description1": "📌 Organize and manage your links",
