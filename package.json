@@ -49,6 +49,7 @@
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.3.0",
+    "emoji-picker-react": "^4.12.2",
     "framer-motion": "^11.0.8",
     "idb": "^8.0.0",
     "input-otp": "^1.2.4",
