@@ -17,8 +17,11 @@
       "@lib/*": [
         "./src/lib/*"
       ],
+      "@shadcn/*": [
+        "src/components/shadcn/*"
+      ],
       "@ui/*": [
-        "./src/components/ui/*"
+        "src/components/ui/*"
       ],
       "@hooks/*": [
         "./src/hooks/*"

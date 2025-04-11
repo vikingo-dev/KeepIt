@@ -1,5 +1,6 @@
 interface LinkProps {
   id?: number
+  emoji?: string
   title: string
   description: string
   url: string
@@ -24,4 +25,18 @@ export type {
   LinkProps,
   BookmarkProps,
   TagProps
+}
+
+const initLink: LinkProps = {
+  emoji: "",
+  title: "",
+  description: "",
+  url: "",
+  tags: [],
+  color: 'hsl(239,  84%, 67%)',
+  createdAt: new Date()
+}
+
+export {
+  initLink
 }
