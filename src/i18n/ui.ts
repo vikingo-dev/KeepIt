@@ -34,8 +34,12 @@ export const labels = {
     "bookmarks.saveAndContinue": "Guardar y Continuar",
 
     "search.addTag": "Agregar Tag",
+    "search.editTag": "Editando Tag",
     "search.placeholder": "Buscar links...",
     "search.selectedTags": "Seleccionar Tags",
+    "search.filterTags": "Buscar tags",
+    "search.tagExists": "El tag ya existe",
+    "search.tagErrorInSave": "Error al guardar el tag",
 
     "listLinks.noLinksFound": "No se encontraron enlaces",
     "listLinks.addLinksToStart": "Añade algunos enlaces para comenzar!",
@@ -69,7 +73,7 @@ export const labels = {
     "addModalLink.label.title": "Título",
     "addModalLink.label.description": "Descripción",
     "addModalLink.placeholder.description": "Sin Descripción",
-    "addModalLink.label.url": "URL",
+    "addModalLink.label.url": "Link",
     "addModalLink.label.color": "Color",
     "addModalLink.label.tags": "Tags",
     "addModalLink.button.creating": "Creando...",
@@ -124,8 +128,12 @@ export const labels = {
     "bookmarks.saveAndContinue": "Save and Continue",
 
     "search.addTag": "Add Tag",
+    "search.editTag": "Edit Tag",
     "search.placeholder": "Search links...",
     "search.selectedTags": "Select Tags",
+    "search.filterTags": "Search tags",
+    "search.tagExists": "Tag already exists",
+    "search.tagErrorInSave": "Error saving tag",
 
     "listLinks.noLinksFound": "No links found",
     "listLinks.addLinksToStart": "Add some links to get started!",
@@ -159,7 +167,7 @@ export const labels = {
     "addModalLink.label.title": "Title",
     "addModalLink.label.description": "Description",
     "addModalLink.placeholder.description": "No Description",
-    "addModalLink.label.url": "URL",
+    "addModalLink.label.url": "Link",
     "addModalLink.label.color": "Color",
     "addModalLink.label.tags": "Tags",
     "addModalLink.button.creating": "Creating...",
