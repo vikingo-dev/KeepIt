@@ -19,6 +19,7 @@ import useLinksStore from '@store/linksStore';
 import { useTranslations } from '@/i18n/utils';
 import type { LinkProps, TagProps } from '@models/general';
 import { pastelizeColorPastel } from '@/utils/formattedColor';
+import TagsSelected from './TagsSelected';
 
 interface LinkModalProps {
   link: LinkProps | null
@@ -85,6 +86,11 @@ export function LinkModal({ link, open, onOpenChange, onDelete, onUpdate }: Link
     setColor(pastelizeColorPastel(e?.target?.value))
   }
 
+  const removeTag = (tag: TagProps) => {
+    const newTags = tags.filter(t => t.id !== tag.id);
+    setTags(newTags);
+  };
+
   if (!link) return null;
 
   return (
@@ -140,9 +146,12 @@ export function LinkModal({ link, open, onOpenChange, onDelete, onUpdate }: Link
                 <div className='w-full h-10 rounded-md' style={{ backgroundColor: color }} />
               </div>
             </div>
-            <div className="space-y-2 space-x-2 items-center flex">
-              <Label>{translateLabels("linkModal.tags")}</Label>
-              <TagSelector selectedTags={tags} onTagsChange={setTags} />
+            <div className="col-span-12 space-y-2">
+              <div className='flex flex-row gap-2 items-center'>
+                <Label>{translateLabels("addModalLink.label.tags")} ({tags?.length || 0})</Label>
+                <TagSelector selectedTags={tags} onTagsChange={setTags} />
+              </div>
+              <TagsSelected tags={tags} removeTag={removeTag} />
             </div>
             <DialogFooter className="gap-2">
               <Button

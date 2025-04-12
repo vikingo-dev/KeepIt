@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import { Search, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Search } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 import { Input } from '@shadcn/input';
+import TagsSelected from './TagsSelected';
 import { TagSelector } from './TagSelector';
 import useLinksStore from '@store/linksStore';
+import type { TagProps } from '@models/links';
 import { useTranslations } from '@/i18n/utils';
-import type { TagProps } from '@/types/links';
 
 const SearchBar = () => {
   const { handleSearch, lang } = useLinksStore()
@@ -60,31 +61,7 @@ const SearchBar = () => {
         </div>
       </div>
 
-      <AnimatePresence>
-        {selectedTags.length > 0 && (
-          <motion.div
-            className="flex flex-wrap gap-2"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-          >
-            {selectedTags.map((tag) => (
-              <motion.button
-                key={tag.id}
-                className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary/10 text-sm capitalize"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                exit={{ scale: 0 }}
-                layout
-                onClick={() => removeTag(tag)}
-              >
-                {tag.title}
-                <X className="w-3 h-3" />
-              </motion.button>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <TagsSelected tags={selectedTags} removeTag={removeTag} />
     </motion.div>
   );
 }

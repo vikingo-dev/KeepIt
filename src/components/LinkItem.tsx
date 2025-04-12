@@ -33,7 +33,7 @@ const LinkItem = ({ link, setSelectedLink }: { link: LinkProps, setSelectedLink:
           className="flex-1 text-left w-full"
         >
           <h3 className="font-medium line-clamp-1 capitalize text-sm">
-            {link.title || translateLabels("linkItem.title")}
+            {link?.emoji} {link.title || translateLabels("linkItem.title")}
           </h3>
         </button>
         <Button
