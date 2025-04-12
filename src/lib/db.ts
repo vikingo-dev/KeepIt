@@ -1,7 +1,9 @@
+import axios from 'axios';
 import { openDB } from 'idb';
 
 import { configSite } from 'config';
 import type { LinkProps, TagProps } from '@models/general';
+import { generateTokenAI } from '@/i18n/utils';
 
 const dbName = `${configSite.name}-links-db`;
 const storeName = 'links';
@@ -153,10 +155,19 @@ export async function initTagDB() {
 // Create a new tag
 export async function addTag(title: string) {
   const db = await initTagDB();
+
+  // Verificar si ya existe un tag con el mismo título
+  const allTags = await db.getAll(tagStoreName);
+  const exists = allTags.some(tag => tag.title === title.toLowerCase());
+  if (exists) {
+    throw new Error("Ya existe un tag con este título.");
+  }
+
+  // Agregar el nuevo tag
   return db.add(tagStoreName, {
     id: crypto.randomUUID(),
     title: title?.toLowerCase(),
-    createdAt: new Date()
+    createdAt: new Date(),
   });
 }
 
@@ -171,6 +182,15 @@ export async function updateTag(id: string, title: string) {
   const db = await initTagDB();
   const existingTag = await db.get(tagStoreName, id);
   if (!existingTag) throw new Error('Tag not found');
+
+  // Verificar si ya existe otro tag con el mismo título
+  const allTags = await db.getAll(tagStoreName);
+  const exists = allTags.some(tag => tag.title === title.toLowerCase() && tag.id !== id);
+  if (exists) {
+    throw new Error("Ya existe un tag con este título.");
+  }
+
+  // Actualizar el tag
   return db.put(tagStoreName, { ...existingTag, title: title?.toLowerCase() });
 }
 
@@ -185,4 +205,31 @@ export async function getTagsByIds(ids: string[]) {
   const db = await initTagDB();
   const tags = await Promise.all(ids.map(id => db.get(tagStoreName, id)));
   return tags.filter(tag => tag !== undefined); // Filtrar valores undefined si algún ID no existe
+}
+
+// Generate a website description with AI
+export async function generateDescription(link: string) {
+  const tokenAuth = generateTokenAI(); // Generar el token
+  const db = await initDB();
+  const allLinks = await db.getAll(storeName);
+
+
+  try {
+    // Realizar la consulta POST con axios
+    const response = await axios.post('https://desplegapps-xi-asistente.sls1ta.easypanel.host/webhook/f2fb6426-07e4-4c4b-a7ed-697659bad68b', {
+      link,
+      token: tokenAuth,
+    });
+
+    // Validar la respuesta
+    if (response.data && response.data.description) {
+      const description = response.data.description;
+      return { description }
+    } else {
+      throw new Error("La API no devolvió una descripción válida.");
+    }
+  } catch (error) {
+    console.error("Error al generar la descripción:", error);
+    throw new Error("No se pudo generar la descripción.");
+  }
 }
