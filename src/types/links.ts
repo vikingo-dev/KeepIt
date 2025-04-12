@@ -28,7 +28,7 @@ export type {
 }
 
 const initLink: LinkProps = {
-  emoji: "",
+  emoji: "⚡",
   title: "",
   description: "",
   url: "",
