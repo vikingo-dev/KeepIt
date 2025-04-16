@@ -80,6 +80,7 @@ export const labels = {
     "addModalLink.button.create": "Crear link",
     "addModalLink.placeholder.emoji": "✨",
     "addModalLink.label.emoji": "Emoji",
+    "addModalLink.error.noUrl": "Se requiere un link",
 
     "modalNewUser.title": "¡Bienvenido a",
     "modalNewUser.description1": "📌 Organiza y gestiona tus enlaces de manera",
@@ -174,6 +175,8 @@ export const labels = {
     "addModalLink.button.create": "Create link",
     "addModalLink.placeholder.emoji": "✨",
     "addModalLink.label.emoji": "Emoji",
+    "addModalLink.error.noUrl": "Required link",
+
 
     "modalNewUser.title": "Welcome to",
     "modalNewUser.description1": "📌 Organize and manage your links",
