@@ -216,7 +216,7 @@ export async function generateDescription(link: string) {
 
   try {
     // Realizar la consulta POST con axios
-    const response = await axios.post('https://desplegapps-xi-asistente.sls1ta.easypanel.host/webhook/f2fb6426-07e4-4c4b-a7ed-697659bad68b', {
+    const response = await axios.post('https://desplegapps-n8n.sls1ta.easypanel.host/webhook/80b1c5f7-48ab-4364-9521-6a3281af4718', {
       link,
       token: tokenAuth,
     });
